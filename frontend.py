@@ -23,6 +23,9 @@ st.markdown(
 st.markdown('<p class="title">🚖 Taxi Billing Software</p>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Calculate your fare and generate a bill instantly!</p>', unsafe_allow_html=True)
 
+# Backend URL
+BACKEND_URL = "https://tgtt.onrender.com"  # ✅ Updated API endpoint
+
 # Layout with Columns for Better Design
 col1, col2 = st.columns(2)
 
@@ -45,7 +48,7 @@ st.markdown("---")  # Horizontal Line for Separation
 if st.button("📊 Calculate Fare"):
     with st.spinner("Calculating fare... ⏳"):
         try:
-            response = requests.post("http://127.0.0.1:5000/calculate", json={
+            response = requests.post(f"{BACKEND_URL}/calculate", json={  # ✅ Updated API URL
                 "start_reading": start_reading,
                 "end_reading": end_reading,
                 "rate_per_km": rate_per_km,
@@ -53,7 +56,7 @@ if st.button("📊 Calculate Fare"):
                 "state_tax": state_tax,
                 "meal": meal,
                 "night_stay": night_stay
-            }, timeout=10)
+            }, timeout=15)
 
             result = response.json()
             if "error" in result:
@@ -71,7 +74,7 @@ if st.button("📜 Generate Bill"):
     with st.spinner("Saving the bill... 💾"):
         try:
             response = requests.post(
-                "http://127.0.0.1:5000/save", 
+                f"{BACKEND_URL}/save",  # ✅ Updated API URL
                 json={
                     "customer_name": customer_name,
                     "start_reading": start_reading,
